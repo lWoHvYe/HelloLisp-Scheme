@@ -1,0 +1,42 @@
+;  (import (scheme small)) 
+;  (import (srfi 27)) 
+  
+  
+ (define (miller-rabin-test n rounds) 
+   (define (try-it rounds) 
+     (define a (+ 1 (random (- n 1)))) 
+     (cond 
+       ((= rounds 0) #t) 
+       ((= (expmod a n n) a) (try-it (- rounds 1))) 
+       (else #f))) 
+   (define (expmod base e mod) 
+     (cond 
+       ((= e 0) 1) 
+       ((even? e) (squaremod (expmod base (/ e 2) mod) mod)) 
+       (else (remainder (* base (expmod base (- e 1) mod)) mod)))) 
+   (define (squaremod x mod) 
+     (define y (remainder (square x) mod)) 
+     (if (and (= y 1) (not (= x 1)) (not (= x (- mod 1)))) 
+       0 
+       y)) 
+   (and (> n 1) (try-it rounds)))
+
+(define (square guess) 
+  (* guess guess))
+  
+ (display (miller-rabin-test 2 10)) (newline) 
+ (display (miller-rabin-test 3 10)) (newline) 
+ (display (miller-rabin-test 5 10)) (newline) 
+ (display (miller-rabin-test 7 10)) (newline) 
+ (display (miller-rabin-test 0 10)) (newline) 
+ (display (miller-rabin-test 1 10)) (newline) 
+ (display (miller-rabin-test 4 10)) (newline) 
+ (display (miller-rabin-test 6 10)) (newline) 
+ (display (miller-rabin-test 8 10)) (newline) 
+ (display (miller-rabin-test 9 10)) (newline) 
+ (display (miller-rabin-test 561 10)) (newline) 
+ (display (miller-rabin-test 1105 10)) (newline) 
+ (display (miller-rabin-test 1729 10)) (newline) 
+ (display (miller-rabin-test 2465 10)) (newline) 
+ (display (miller-rabin-test 2821 10)) (newline) 
+ (display (miller-rabin-test 6601 10)) (newline) 
