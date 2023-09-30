@@ -1,0 +1,1 @@
+http://community.schemewiki.org/?sicp-ex-5.51
